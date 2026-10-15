@@ -10,7 +10,7 @@ export class PlanetGeneratorApp extends HandlebarsApplicationMixin(ApplicationV2
   constructor(options = {}) {
     super(options);
     this.planet = options.planet ?? null;
-    this.state = {
+    this.formState = {
       name: "",
       core: "random",
       factionId: "",
@@ -60,10 +60,10 @@ export class PlanetGeneratorApp extends HandlebarsApplicationMixin(ApplicationV2
     for (const f of game.folders.filter((f) => f.type === "JournalEntry")) destinationOptions[`folder:${f.id}`] = `${folderLabel}: ${f.name}`;
     const packLabel = game.i18n.localize("LPG.App.DestinationPack");
     for (const p of getJournalPacks()) destinationOptions[`pack:${p.collection}`] = `${packLabel}: ${p.title}`;
-    if (!(this.state.destination in destinationOptions)) this.state.destination = "default";
+    if (!(this.formState.destination in destinationOptions)) this.formState.destination = "default";
 
     return Object.assign(context, {
-      state: this.state,
+      state: this.formState,
       planet: this.planet,
       previewHtml: this.planet ? await renderPlanetHtml(this.planet, { controls: true }) : "",
       coreOptions: { random: "LPG.App.CoreRandom", core: "LPG.App.CoreYes", rim: "LPG.App.CoreNo" },
@@ -76,7 +76,7 @@ export class PlanetGeneratorApp extends HandlebarsApplicationMixin(ApplicationV2
   #readForm() {
     const el = this.element;
     const value = (name) => el.querySelector(`[name="${name}"]`)?.value ?? "";
-    Object.assign(this.state, {
+    Object.assign(this.formState, {
       name: value("name"),
       core: value("core") || "random",
       factionId: value("factionId"),
@@ -84,7 +84,7 @@ export class PlanetGeneratorApp extends HandlebarsApplicationMixin(ApplicationV2
       seed: value("seed").trim(),
       destination: value("destination") || "default"
     });
-    return this.state;
+    return this.formState;
   }
 
   #generatorOptions() {
@@ -118,7 +118,7 @@ export class PlanetGeneratorApp extends HandlebarsApplicationMixin(ApplicationV2
   static async #onSave() {
     this.#readForm();
     if (!this.planet) return ui.notifications.warn(game.i18n.localize("LPG.Errors.NoPlanet"));
-    const entry = await savePlanetToJournal(this.planet, this.state.destination);
+    const entry = await savePlanetToJournal(this.planet, this.formState.destination);
     entry?.sheet?.render(true);
   }
 
