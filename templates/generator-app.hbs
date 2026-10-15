@@ -1,0 +1,50 @@
+<div class="lpg-generator">
+  <aside class="lpg-controls">
+    <div class="form-group">
+      <label>{{localize "LPG.App.Name"}}</label>
+      <input type="text" name="name" value="{{state.name}}" placeholder="{{localize "LPG.App.NamePlaceholder"}}">
+    </div>
+    <div class="form-group">
+      <label>{{localize "LPG.App.Core"}}</label>
+      <select name="core">
+        {{selectOptions coreOptions selected=state.core localize=true}}
+      </select>
+    </div>
+    <div class="form-group">
+      <label>{{localize "LPG.App.Faction"}}</label>
+      <select name="factionId">
+        {{selectOptions factionOptions selected=state.factionId}}
+      </select>
+    </div>
+    <div class="form-group">
+      <label>{{localize "LPG.App.IncludeReligion"}}</label>
+      <input type="checkbox" name="includeReligion" {{checked state.includeReligion}}>
+    </div>
+    <div class="form-group">
+      <label>{{localize "LPG.App.Seed"}}</label>
+      <input type="text" name="seed" value="{{state.seed}}" placeholder="{{localize "LPG.App.SeedPlaceholder"}}">
+    </div>
+    <button type="button" data-action="generate"><i class="fa-solid fa-dice-d20"></i> {{localize "LPG.App.Generate"}}</button>
+
+    <hr>
+    <div class="form-group">
+      <label>{{localize "LPG.App.Destination"}}</label>
+      <select name="destination">
+        {{selectOptions destinationOptions selected=state.destination}}
+      </select>
+    </div>
+    <button type="button" data-action="save" {{#unless planet}}disabled{{/unless}}><i class="fa-solid fa-book-medical"></i> {{localize "LPG.App.Save"}}</button>
+    {{#if galaxyEnabled}}
+    <button type="button" data-action="openGalaxy"><i class="fa-solid fa-circle-nodes"></i> {{localize "LPG.OpenGalaxy"}}</button>
+    {{/if}}
+  </aside>
+
+  <section class="lpg-preview">
+    {{#if planet}}
+    <h1 class="lpg-planet-name">{{planet.name}} <span class="lpg-seed">({{localize "LPG.App.Seed"}}: {{planet.seed}})</span></h1>
+    <div class="lpg-page">{{{previewHtml}}}</div>
+    {{else}}
+    <p class="lpg-empty">{{localize "LPG.App.Empty"}}</p>
+    {{/if}}
+  </section>
+</div>

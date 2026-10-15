@@ -1,0 +1,231 @@
+/* LANCER Planet Generator */
+.lancer-planet-generator .lpg-swatch {
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  border-radius: 2px;
+  margin-right: 0.35em;
+  vertical-align: middle;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.lancer-planet-generator .lpg-empty {
+  opacity: 0.7;
+  font-style: italic;
+  text-align: center;
+  margin-top: 2em;
+}
+
+/* Generator window */
+.lpg-generator-app .window-content {
+  overflow: hidden;
+}
+.lpg-generator {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 0.75rem;
+  height: 100%;
+  min-height: 0;
+}
+.lpg-generator .lpg-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  overflow-y: auto;
+}
+.lpg-generator .lpg-controls .form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.15rem;
+}
+.lpg-generator .lpg-controls .form-group:has(input[type="checkbox"]) {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.lpg-generator .lpg-controls button {
+  flex: 0 0 auto;
+}
+.lpg-generator .lpg-preview {
+  overflow-y: auto;
+  min-height: 0;
+  padding-right: 0.5rem;
+}
+.lpg-generator .lpg-planet-name {
+  margin-top: 0;
+}
+.lpg-generator .lpg-seed {
+  font-size: 0.55em;
+  opacity: 0.6;
+  font-weight: normal;
+}
+.lpg-generator .lpg-reroll {
+  cursor: pointer;
+  font-size: 0.8em;
+  opacity: 0.7;
+}
+.lpg-generator .lpg-reroll:hover {
+  opacity: 1;
+}
+
+/* Re-roll dialog */
+.lancer-planet-generator .lpg-reroll-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem 1rem;
+  margin-bottom: 0.5rem;
+}
+.lancer-planet-generator .lpg-reroll-option {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Journal sidebar buttons */
+.lpg-directory-buttons {
+  gap: 0.25rem;
+  margin: 0.25rem 0;
+  flex: 0 0 auto;
+}
+
+/* Faction weights */
+.lpg-faction-weights table {
+  width: 100%;
+}
+.lpg-faction-weights td:nth-child(2),
+.lpg-faction-weights th:nth-child(2) {
+  text-align: center;
+}
+.lpg-faction-weights input[type="number"] {
+  width: 5em;
+}
+.lpg-faction-weights .form-footer {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Galaxy map */
+.lpg-galaxy-app .window-content {
+  overflow: hidden;
+}
+.lpg-galaxy {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 0.75rem;
+  height: 100%;
+  min-height: 0;
+}
+.lpg-galaxy .lpg-map {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.lpg-galaxy .lpg-map-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.lpg-galaxy .lpg-map-toolbar button {
+  flex: 0 0 auto;
+  width: auto;
+}
+.lpg-galaxy-svg {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  background: radial-gradient(circle at center, #1b2440 0%, #0b0f1c 75%);
+  border-radius: 6px;
+}
+.lpg-galaxy-svg .lpg-hex {
+  cursor: pointer;
+}
+.lpg-galaxy-svg .lpg-hex polygon {
+  stroke: rgba(255, 255, 255, 0.35);
+  stroke-width: 1;
+  transition: stroke 0.1s;
+}
+.lpg-galaxy-svg .lpg-hex.lpg-core polygon {
+  stroke: rgba(255, 255, 255, 0.75);
+  stroke-width: 2;
+}
+.lpg-galaxy-svg .lpg-hex:hover polygon {
+  stroke: #fff;
+  stroke-width: 2.5;
+}
+.lpg-galaxy-svg .lpg-hex.lpg-selected polygon {
+  stroke: #ffd84a;
+  stroke-width: 3.5;
+}
+.lpg-galaxy-svg text {
+  fill: #fff;
+  text-anchor: middle;
+  pointer-events: none;
+  paint-order: stroke;
+  stroke: rgba(0, 0, 0, 0.7);
+  stroke-width: 2px;
+}
+.lpg-galaxy-svg .lpg-hex-name {
+  font-size: 10px;
+  font-weight: bold;
+}
+.lpg-galaxy-svg .lpg-hex-count {
+  font-size: 9px;
+}
+.lpg-galaxy-svg .lpg-route {
+  stroke: #7fe3ff;
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+  opacity: 0.8;
+  pointer-events: none;
+}
+.lpg-galaxy .lpg-legend {
+  list-style: none;
+  padding: 0;
+  margin: 0.4rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.9rem;
+  font-size: 0.85em;
+}
+.lpg-galaxy .lpg-swatch-route {
+  background: repeating-linear-gradient(90deg, #7fe3ff 0 4px, transparent 4px 7px);
+  border: none;
+  height: 3px;
+}
+.lpg-galaxy .lpg-sector {
+  overflow-y: auto;
+  min-height: 0;
+}
+.lpg-galaxy .lpg-sector h2 {
+  margin-top: 0;
+}
+.lpg-galaxy .lpg-sector-stats {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.5rem;
+}
+.lpg-galaxy .lpg-planet-list {
+  padding-left: 1.4em;
+}
+.lpg-galaxy .lpg-planet-list li {
+  margin-bottom: 0.4rem;
+}
+.lpg-galaxy .lpg-planet-row {
+  display: flex;
+  flex-direction: column;
+}
+.lpg-galaxy .lpg-planet-row span {
+  font-size: 0.85em;
+  opacity: 0.8;
+}
+.lpg-galaxy .lpg-planet-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+.lpg-galaxy .lpg-planet-actions button {
+  flex: 0 0 auto;
+  width: auto;
+  padding: 0 0.5rem;
+}

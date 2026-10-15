@@ -1,0 +1,25 @@
+<div class="lpg-faction-weights">
+  <p class="hint">{{localize "LPG.FactionWeights.Hint"}}</p>
+  <table>
+    <thead>
+      <tr>
+        <th>{{localize "LPG.FactionWeights.Faction"}}</th>
+        <th>{{localize "LPG.FactionWeights.Enabled"}}</th>
+        <th>{{localize "LPG.FactionWeights.Weight"}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each factions}}
+      <tr>
+        <td><span class="lpg-swatch" style="background:{{color}}"></span> {{name}}</td>
+        <td><input type="checkbox" name="{{id}}.enabled" {{checked enabled}}></td>
+        <td><input type="number" name="{{id}}.weight" value="{{weight}}" min="0" max="10" step="0.1"></td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <footer class="form-footer">
+    <button type="button" data-action="reset"><i class="fa-solid fa-rotate-left"></i> {{localize "LPG.FactionWeights.Reset"}}</button>
+    <button type="submit"><i class="fa-solid fa-floppy-disk"></i> {{localize "LPG.FactionWeights.Save"}}</button>
+  </footer>
+</div>

@@ -1,0 +1,50 @@
+<div class="lpg-galaxy">
+  <section class="lpg-map">
+    <div class="lpg-map-toolbar">
+      <span>{{localize "LPG.Galaxy.Seed"}}: <code>{{galaxy.seed}}</code></span>
+      <button type="button" data-action="regenerate"><i class="fa-solid fa-arrows-rotate"></i> {{localize "LPG.Galaxy.Regenerate"}}</button>
+    </div>
+    {{{svg}}}
+    <ul class="lpg-legend">
+      {{#each legend}}
+      <li><span class="lpg-swatch" style="background:{{color}}"></span>{{name}}</li>
+      {{/each}}
+      <li><span class="lpg-swatch lpg-swatch-route"></span>{{localize "LPG.Galaxy.Routes"}}</li>
+    </ul>
+  </section>
+
+  <aside class="lpg-sector">
+    {{#if sector}}
+    <h2>{{sector.name}}</h2>
+    <ul class="lpg-sector-stats">
+      <li><strong>{{localize "LPG.Galaxy.Region"}}:</strong> {{sector.regionLabel}}</li>
+      <li><strong>{{localize "LPG.Galaxy.Controller"}}:</strong> {{sector.controllerName}}</li>
+      <li><strong>{{localize "LPG.Galaxy.Influence"}}:</strong> {{sector.influenceLabel}} ({{sector.influencePercent}}%)</li>
+      <li><strong>{{localize "LPG.Galaxy.PlanetCount"}}:</strong> {{sector.planetCount}}</li>
+      <li><strong>{{localize "LPG.Galaxy.Routes"}}:</strong> {{sector.routeNames}}</li>
+    </ul>
+    <h3>{{localize "LPG.Galaxy.Planets"}}</h3>
+    <ol class="lpg-planet-list">
+      {{#each planets}}
+      <li>
+        <div class="lpg-planet-row">
+          <strong>{{planet.name}}</strong>
+          <span>{{planet.coreLabel}} &middot; {{planet.environment.label}} &middot; {{planet.military.faction}} ({{planet.military.tier}})</span>
+        </div>
+        <div class="lpg-planet-actions">
+          <button type="button" data-action="openPlanet" data-index="{{index}}" data-tooltip="{{localize "LPG.Galaxy.OpenInGenerator"}}"><i class="fa-solid fa-magnifying-glass"></i></button>
+          {{#if journalId}}
+          <button type="button" data-action="openJournal" data-journal-uuid="{{journalId}}" data-tooltip="{{localize "LPG.Galaxy.OpenJournal"}}"><i class="fa-solid fa-book-open"></i></button>
+          {{else}}
+          <button type="button" data-action="savePlanet" data-index="{{index}}" data-tooltip="{{localize "LPG.App.Save"}}"><i class="fa-solid fa-book-medical"></i></button>
+          {{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+    <button type="button" data-action="saveAll"><i class="fa-solid fa-book-medical"></i> {{localize "LPG.Galaxy.SaveAll"}}</button>
+    {{else}}
+    <p class="lpg-empty">{{localize "LPG.Galaxy.SelectSector"}}</p>
+    {{/if}}
+  </aside>
+</div>

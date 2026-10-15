@@ -1,0 +1,33 @@
+{{!-- Journal page body for a generated planet. `controls` adds per-section re-roll buttons (generator preview only). --}}
+<p><strong>{{coreLabel}}</strong>{{#if sector}} &middot; {{localize "LPG.Sections.sector"}}: {{sector.name}}{{/if}}</p>
+
+<h2>{{#if controls}}<a class="lpg-reroll" data-action="rerollSection" data-section="environment" data-tooltip="{{localize "LPG.App.RerollSection"}}"><i class="fa-solid fa-dice"></i></a> {{/if}}{{localize "LPG.Sections.environment"}}</h2>
+<p><strong>{{environment.label}}.</strong> {{environment.flavor}}</p>
+
+<h2>{{#if controls}}<a class="lpg-reroll" data-action="rerollSection" data-section="dialect" data-tooltip="{{localize "LPG.App.RerollSection"}}"><i class="fa-solid fa-dice"></i></a> {{/if}}{{localize "LPG.Sections.dialect"}}</h2>
+<p><strong>{{dialect.label}}.</strong> {{dialect.description}}</p>
+
+<h2>{{#if controls}}<a class="lpg-reroll" data-action="rerollSection" data-section="politicalClimate" data-tooltip="{{localize "LPG.App.RerollSection"}}"><i class="fa-solid fa-dice"></i></a> {{/if}}{{localize "LPG.Sections.politicalClimate"}}</h2>
+<p><strong>{{politicalClimate.label}}.</strong> {{politicalClimate.description}}</p>
+
+<h2>{{#if controls}}<a class="lpg-reroll" data-action="rerollSection" data-section="military" data-tooltip="{{localize "LPG.App.RerollSection"}}"><i class="fa-solid fa-dice"></i></a> {{/if}}{{localize "LPG.Sections.military"}}</h2>
+<ul>
+  <li><strong>{{localize "LPG.Page.Faction"}}:</strong> {{military.faction}} &mdash; {{military.factionDescription}}</li>
+  <li><strong>{{localize "LPG.Page.Tier"}}:</strong> {{military.tier}} &mdash; {{military.tierDescription}}</li>
+  <li><strong>{{localize "LPG.Page.Forces"}}:</strong> {{military.forces}}</li>
+</ul>
+
+<h2>{{#if controls}}<a class="lpg-reroll" data-action="rerollSection" data-section="religion" data-tooltip="{{localize "LPG.App.RerollSection"}}"><i class="fa-solid fa-dice"></i></a> {{/if}}{{localize "LPG.Sections.religion"}}</h2>
+{{#if religion}}
+<p><strong>{{religion.label}}.</strong> {{religion.description}}</p>
+{{else}}
+<p><em>{{localize "LPG.Page.NoReligion"}}</em></p>
+{{/if}}
+
+<h2>{{#if controls}}<a class="lpg-reroll" data-action="rerollSection" data-section="foundingEra" data-tooltip="{{localize "LPG.App.RerollSection"}}"><i class="fa-solid fa-dice"></i></a> {{/if}}{{localize "LPG.Sections.foundingEra"}}</h2>
+<p><strong>{{foundingEra.label}}.</strong> {{foundingEra.description}}</p>
+
+<h2>{{#if controls}}<a class="lpg-reroll" data-action="rerollSection" data-section="lore" data-tooltip="{{localize "LPG.App.RerollSection"}}"><i class="fa-solid fa-dice"></i></a> {{/if}}{{localize "LPG.Sections.lore"}}</h2>
+{{#each lore}}
+<p>{{this}}</p>
+{{/each}}
