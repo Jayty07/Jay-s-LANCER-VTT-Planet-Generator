@@ -2,9 +2,26 @@
   <section class="lpg-map">
     <div class="lpg-map-toolbar">
       <span>{{localize "LPG.Galaxy.Seed"}}: <code>{{galaxy.seed}}</code></span>
+      <label class="lpg-grid-size">{{localize "LPG.Galaxy.GridSize"}}
+        <input type="number" name="gridRadius" min="1" max="{{maxGridRadius}}" step="1" value="{{galaxy.radius}}">
+      </label>
       <button type="button" data-action="regenerate"><i class="fa-solid fa-arrows-rotate"></i> {{localize "LPG.Galaxy.Regenerate"}}</button>
+      <button type="button" data-action="clearGalaxy"><i class="fa-solid fa-broom"></i> {{localize "LPG.Galaxy.Clear"}}</button>
     </div>
-    {{{svg}}}
+    <div class="lpg-map-toolbar lpg-tools">
+      {{#each tools}}
+      <button type="button" class="{{#if active}}active{{/if}}" data-action="setTool" data-tool="{{id}}" data-tooltip="{{label}}"><i class="{{icon}}"></i> {{label}}</button>
+      {{/each}}
+    </div>
+    <p class="lpg-tool-hint">{{toolHint}}</p>
+    <div class="lpg-map-view">
+      {{{svg}}}
+      <div class="lpg-zoom">
+        <button type="button" data-action="zoomIn" data-tooltip="{{localize "LPG.Galaxy.ZoomIn"}}"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+        <button type="button" data-action="zoomOut" data-tooltip="{{localize "LPG.Galaxy.ZoomOut"}}"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+        <button type="button" data-action="zoomReset" data-tooltip="{{localize "LPG.Galaxy.ZoomReset"}}"><i class="fa-solid fa-expand"></i></button>
+      </div>
+    </div>
     <ul class="lpg-legend">
       {{#each legend}}
       <li><span class="lpg-swatch" style="background:{{color}}"></span>{{name}}</li>
@@ -14,34 +31,100 @@
   </section>
 
   <aside class="lpg-sector">
-    {{#if sector}}
+    {{#if edit}}
+    <div class="lpg-edit-header">
+      <button type="button" data-action="cancelEdit"><i class="fa-solid fa-arrow-left"></i> {{localize "LPG.Galaxy.BackToSector"}}</button>
+    </div>
+    <h2>{{localize "LPG.Galaxy.EditPlanet"}}</h2>
+    <div class="lpg-planet-form">
+      <div class="form-group"><label>{{localize "LPG.Sections.name"}} <a class="lpg-reroll" data-action="rerollPlanetSection" data-section="name" data-tooltip="{{localize "LPG.App.RerollSection"}}"><i class="fa-solid fa-dice"></i></a></label>
+        <input type="text" name="name" value="{{edit.planet.name}}"></div>
+      <div class="form-group lpg-inline"><label>{{localize "LPG.Galaxy.IsCore"}}</label>
+        <input type="checkbox" name="isCore" {{checked edit.planet.isCore}}></div>
+
+      <fieldset><legend>{{localize "LPG.Sections.environment"}} <a class="lpg-reroll" data-action="rerollPlanetSection" data-section="environment" data-tooltip="{{localize "LPG.App.RerollSection"}}"><i class="fa-solid fa-dice"></i></a></legend>
+        <input type="text" name="environment.label" value="{{edit.planet.environment.label}}">
+        <textarea name="environment.flavor" rows="3">{{edit.planet.environment.flavor}}</textarea></fieldset>
+
+      <fieldset><legend>{{localize "LPG.Sections.dialect"}} <a class="lpg-reroll" data-action="rerollPlanetSection" data-section="dialect" data-tooltip="{{localize "LPG.App.RerollSection"}}"><i class="fa-solid fa-dice"></i></a></legend>
+        <input type="text" name="dialect.label" value="{{edit.planet.dialect.label}}">
+        <textarea name="dialect.description" rows="3">{{edit.planet.dialect.description}}</textarea></fieldset>
+
+      <fieldset><legend>{{localize "LPG.Sections.politicalClimate"}} <a class="lpg-reroll" data-action="rerollPlanetSection" data-section="politicalClimate" data-tooltip="{{localize "LPG.App.RerollSection"}}"><i class="fa-solid fa-dice"></i></a></legend>
+        <input type="text" name="politicalClimate.label" value="{{edit.planet.politicalClimate.label}}">
+        <textarea name="politicalClimate.description" rows="3">{{edit.planet.politicalClimate.description}}</textarea></fieldset>
+
+      <fieldset><legend>{{localize "LPG.Sections.military"}} <a class="lpg-reroll" data-action="rerollPlanetSection" data-section="military" data-tooltip="{{localize "LPG.App.RerollSection"}}"><i class="fa-solid fa-dice"></i></a></legend>
+        <label>{{localize "LPG.Page.Faction"}}</label>
+        <select name="military.factionId">{{selectOptions factionOptions selected=edit.planet.military.factionId}}</select>
+        <label>{{localize "LPG.Page.Tier"}}</label>
+        <select name="military.tierId">{{selectOptions edit.tierOptions selected=edit.planet.military.tierId}}</select>
+        <label>{{localize "LPG.Page.Forces"}}</label>
+        <input type="text" name="military.forces" value="{{edit.planet.military.forces}}"></fieldset>
+
+      <fieldset><legend>{{localize "LPG.Sections.religion"}} <a class="lpg-reroll" data-action="rerollPlanetSection" data-section="religion" data-tooltip="{{localize "LPG.App.RerollSection"}}"><i class="fa-solid fa-dice"></i></a></legend>
+        <input type="text" name="religion.label" value="{{edit.planet.religion.label}}" placeholder="{{localize "LPG.Galaxy.NoReligionHint"}}">
+        <textarea name="religion.description" rows="3">{{edit.planet.religion.description}}</textarea></fieldset>
+
+      <fieldset><legend>{{localize "LPG.Sections.foundingEra"}} <a class="lpg-reroll" data-action="rerollPlanetSection" data-section="foundingEra" data-tooltip="{{localize "LPG.App.RerollSection"}}"><i class="fa-solid fa-dice"></i></a></legend>
+        <input type="text" name="foundingEra.label" value="{{edit.planet.foundingEra.label}}">
+        <textarea name="foundingEra.description" rows="3">{{edit.planet.foundingEra.description}}</textarea></fieldset>
+
+      <fieldset><legend>{{localize "LPG.Sections.lore"}} <a class="lpg-reroll" data-action="rerollPlanetSection" data-section="lore" data-tooltip="{{localize "LPG.App.RerollSection"}}"><i class="fa-solid fa-dice"></i></a></legend>
+        <textarea name="lore" rows="12">{{edit.loreText}}</textarea>
+        <p class="hint">{{localize "LPG.Galaxy.LoreHint"}}</p></fieldset>
+    </div>
+    <div class="lpg-edit-buttons">
+      <button type="button" data-action="commitPlanet"><i class="fa-solid fa-floppy-disk"></i> {{localize "LPG.Galaxy.SaveChanges"}}</button>
+      {{#if edit.journalId}}
+      <button type="button" data-action="openJournal" data-journal-uuid="{{edit.journalId}}"><i class="fa-solid fa-book-open"></i> {{localize "LPG.Galaxy.OpenJournal"}}</button>
+      {{/if}}
+    </div>
+    <p class="hint">{{#if edit.journalId}}{{localize "LPG.Galaxy.SyncHint"}}{{else}}{{localize "LPG.Galaxy.UnsavedHint"}}{{/if}}</p>
+
+    {{else if sector}}
     <h2>{{sector.name}}</h2>
-    <ul class="lpg-sector-stats">
-      <li><strong>{{localize "LPG.Galaxy.Region"}}:</strong> {{sector.regionLabel}}</li>
-      <li><strong>{{localize "LPG.Galaxy.Controller"}}:</strong> {{sector.controllerName}}</li>
-      <li><strong>{{localize "LPG.Galaxy.Influence"}}:</strong> {{sector.influenceLabel}} ({{sector.influencePercent}}%)</li>
-      <li><strong>{{localize "LPG.Galaxy.PlanetCount"}}:</strong> {{sector.planetCount}}</li>
-      <li><strong>{{localize "LPG.Galaxy.Routes"}}:</strong> {{sector.routeNames}}</li>
-    </ul>
-    <h3>{{localize "LPG.Galaxy.Planets"}}</h3>
+    <div class="lpg-sector-form">
+      <div class="form-group"><label>{{localize "LPG.Galaxy.SectorName"}}</label>
+        <input type="text" name="sector.name" value="{{sector.name}}"></div>
+      <div class="form-group"><label>{{localize "LPG.Galaxy.Controller"}}</label>
+        <select name="sector.controller">{{selectOptions factionOptions selected=sector.controller}}</select></div>
+      <div class="form-group"><label>{{localize "LPG.Galaxy.Region"}}</label>
+        <select name="sector.region">{{selectOptions regionOptions selected=sector.region}}</select></div>
+      <div class="form-group"><label>{{localize "LPG.Galaxy.Influence"}} ({{sector.influenceLabel}})</label>
+        <input type="range" name="sector.influence" min="0" max="100" step="5" value="{{sector.influencePercent}}"></div>
+      <button type="button" data-action="saveSector"><i class="fa-solid fa-floppy-disk"></i> {{localize "LPG.Galaxy.SaveSector"}}</button>
+    </div>
+    <p><strong>{{localize "LPG.Galaxy.Routes"}}:</strong> {{sector.routeNames}}</p>
+
+    <h3>{{localize "LPG.Galaxy.Planets"}} ({{planets.length}})</h3>
     <ol class="lpg-planet-list">
       {{#each planets}}
       <li>
         <div class="lpg-planet-row">
-          <strong>{{planet.name}}</strong>
+          <a data-action="editPlanet" data-seed="{{planet.seed}}"><strong>{{planet.name}}</strong></a>
           <span>{{planet.coreLabel}} &middot; {{planet.environment.label}} &middot; {{planet.military.faction}} ({{planet.military.tier}})</span>
         </div>
         <div class="lpg-planet-actions">
-          <button type="button" data-action="openPlanet" data-index="{{index}}" data-tooltip="{{localize "LPG.Galaxy.OpenInGenerator"}}"><i class="fa-solid fa-magnifying-glass"></i></button>
+          <button type="button" data-action="editPlanet" data-seed="{{planet.seed}}" data-tooltip="{{localize "LPG.Galaxy.EditPlanet"}}"><i class="fa-solid fa-pen"></i></button>
+          <button type="button" data-action="openPlanet" data-seed="{{planet.seed}}" data-tooltip="{{localize "LPG.Galaxy.OpenInGenerator"}}"><i class="fa-solid fa-magnifying-glass"></i></button>
           {{#if journalId}}
           <button type="button" data-action="openJournal" data-journal-uuid="{{journalId}}" data-tooltip="{{localize "LPG.Galaxy.OpenJournal"}}"><i class="fa-solid fa-book-open"></i></button>
           {{else}}
-          <button type="button" data-action="savePlanet" data-index="{{index}}" data-tooltip="{{localize "LPG.App.Save"}}"><i class="fa-solid fa-book-medical"></i></button>
+          <button type="button" data-action="savePlanet" data-seed="{{planet.seed}}" data-tooltip="{{localize "LPG.App.Save"}}"><i class="fa-solid fa-book-medical"></i></button>
           {{/if}}
+          <button type="button" data-action="deletePlanet" data-seed="{{planet.seed}}" data-tooltip="{{localize "LPG.Galaxy.DeletePlanet"}}"><i class="fa-solid fa-trash"></i></button>
         </div>
       </li>
+      {{else}}
+      <li class="lpg-empty">{{localize "LPG.Galaxy.NoPlanets"}}</li>
       {{/each}}
     </ol>
+    <div class="lpg-planet-add">
+      <button type="button" data-action="addPlanet"><i class="fa-solid fa-plus"></i> {{localize "LPG.Galaxy.AddPlanet"}}</button>
+      <input type="number" name="planetCount" min="1" max="12" value="3">
+      <button type="button" data-action="generatePlanets"><i class="fa-solid fa-dice"></i> {{localize "LPG.Galaxy.GeneratePlanets"}}</button>
+    </div>
     <button type="button" data-action="saveAll"><i class="fa-solid fa-book-medical"></i> {{localize "LPG.Galaxy.SaveAll"}}</button>
     {{else}}
     <p class="lpg-empty">{{localize "LPG.Galaxy.SelectSector"}}</p>

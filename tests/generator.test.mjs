@@ -109,10 +109,31 @@ test("planet page template renders every section", () => {
   assert.ok(render({ ...p, religion: null }).includes("LPG.Page.NoReligion"));
 });
 
+test("galaxy map template renders sector and edit panels", () => {
+  const hbs = Handlebars.create();
+  hbs.registerHelper("localize", (key) => key);
+  hbs.registerHelper("checked", (v) => (v ? "checked" : ""));
+  hbs.registerHelper("selectOptions", (choices, { hash }) =>
+    new hbs.SafeString(Object.entries(choices ?? {}).map(([k, v]) => `<option value="${k}"${k === hash.selected ? " selected" : ""}>${v}</option>`).join(""))
+  );
+  const render = hbs.compile(readFileSync(new URL("../templates/galaxy-map.hbs", import.meta.url), "utf8"));
+  const galaxy = generateGalaxy({ seed: "tplg" });
+  const sector = galaxy.sectors[0];
+  const planets = generateSectorPlanets(galaxy, sector).map((planet) => ({ planet }));
+  const base = { galaxy, svg: "<svg></svg>", tools: [], legend: [], factionOptions: { union: "Union" }, regionOptions: { core: "Union Core" } };
+  const sectorHtml = render({ ...base, sector: { ...sector, influencePercent: 50 }, planets });
+  assert.ok(sectorHtml.includes('name="sector.name"') && sectorHtml.includes('data-action="editPlanet"'));
+  const p = planets[0].planet;
+  const editHtml = render({ ...base, sector, planets, edit: { planet: p, loreText: p.lore.join("\\n\\n"), tierOptions: { militia: "Planetary Militia" } } });
+  for (const name of ["name", "environment.label", "military.factionId", "military.tierId", "religion.label", "lore"]) assert.ok(editHtml.includes(`name="${name}"`), name);
+  assert.ok(editHtml.includes('data-action="commitPlanet"'));
+  assert.ok(!editHtml.includes('name="sector.name"'));
+});
+
 test("every LPG localization key used in code and templates exists", () => {
   const lang = JSON.parse(readFileSync(new URL("../lang/en.json", import.meta.url), "utf8"));
   const has = (key) => key.split(".").reduce((o, k) => o?.[k], lang) !== undefined;
-  const files = ["scripts/main.mjs", "scripts/journal.mjs", "scripts/apps/planet-generator-app.mjs", "scripts/apps/galaxy-map-app.mjs", "scripts/apps/faction-weights-config.mjs", "templates/planet-page.hbs", "templates/generator-app.hbs", "templates/galaxy-map.hbs", "templates/faction-weights.hbs"];
+  const files = ["scripts/main.mjs", "scripts/journal.mjs", "scripts/apps/planet-generator-app.mjs", "scripts/apps/galaxy-map-app.mjs", "scripts/apps/faction-weights-config.mjs", "scripts/galaxy-editor.mjs", "templates/planet-page.hbs", "templates/generator-app.hbs", "templates/galaxy-map.hbs", "templates/faction-weights.hbs"];
   for (const f of files) {
     const src = readFileSync(new URL(`../${f}`, import.meta.url), "utf8");
     for (const [key] of src.matchAll(/LPG(\.[A-Za-z]+)+/g)) {

@@ -116,6 +116,14 @@ export async function rerollJournal(entry) {
   if (!sections.length) return ui.notifications.warn(game.i18n.localize("LPG.Reroll.NoneSelected"));
 
   const next = rerollPlanet(planet, sections, getGeneratorOptions());
+  await writePlanetToJournal(entry, next);
+  ui.notifications.info(game.i18n.format("LPG.Reroll.Done", { name: next.name }));
+  return next;
+}
+
+/** Rewrite a generated planet journal's page and stored data from `next`, renaming it if the name was unchanged by hand. */
+export async function writePlanetToJournal(entry, next) {
+  const planet = entry.getFlag(MODULE_ID, "planet") ?? {};
   const content = await renderPlanetHtml(next);
   const page = entry.pages.find((p) => p.getFlag(MODULE_ID, "generated")) ?? entry.pages.find((p) => p.type === "text");
   if (page) {
@@ -130,6 +138,5 @@ export async function rerollJournal(entry) {
   const entryUpdate = { [`flags.${MODULE_ID}.planet`]: next };
   if (entry.name === planet.name) entryUpdate.name = next.name;
   await entry.update(entryUpdate);
-  ui.notifications.info(game.i18n.format("LPG.Reroll.Done", { name: next.name }));
-  return next;
+  return entry;
 }

@@ -59,7 +59,7 @@
       "Regenerate": "New Galaxy",
       "RegenerateConfirm": "Generate a new galaxy? The current map will be replaced (saved journal entries are kept).",
       "Seed": "Galaxy seed",
-      "SelectSector": "Click a sector to see its planets.",
+      "SelectSector": "Click a sector to see and edit its planets. Use the tools above to add, move, link or erase sectors.",
       "Controller": "Controlling power",
       "Influence": "Influence",
       "Region": "Region",
@@ -70,7 +70,50 @@
       "SaveAll": "Save all planets to Journal",
       "Legend": "Legend",
       "OpenJournal": "Open journal",
-      "Disabled": "The galaxy map is disabled in the module settings."
+      "Disabled": "The galaxy map is disabled in the module settings.",
+      "Clear": "Clear Map",
+      "ClearConfirm": "Remove every sector and route and start from an empty grid? Saved journal entries are kept.",
+      "GridSize": "Grid size",
+      "ZoomIn": "Zoom in",
+      "ZoomOut": "Zoom out",
+      "ZoomReset": "Fit to window",
+      "Tools": {
+        "select": "Select",
+        "addRandom": "Add Sector",
+        "addBlank": "Add Blank Sector",
+        "move": "Move",
+        "link": "Link Route",
+        "erase": "Erase"
+      },
+      "ToolHints": {
+        "select": "Click a sector to select it. Scroll to zoom, drag to pan.",
+        "addRandom": "Click an empty hex to add a randomly rolled sector (name, controller and planets fit its position).",
+        "addBlank": "Click an empty hex to add a blank, unclaimed sector with no planets.",
+        "move": "Click a sector to pick it up.",
+        "movePending": "Moving {name}: click an empty hex to place it, or click it again to cancel.",
+        "link": "Click a sector, then another, to add or remove a blink-gate route between them.",
+        "linkPending": "Linking from {name}: click another sector to toggle a route, or click it again to cancel.",
+        "erase": "Click a sector to delete it and its routes."
+      },
+      "EraseConfirm": "Delete {name}, its planets and its routes? Saved journal entries are kept.",
+      "SectorName": "Sector name",
+      "SaveSector": "Save Sector",
+      "SectorSaved": "Saved sector {name}.",
+      "AddPlanet": "Add Planet",
+      "GeneratePlanets": "Generate",
+      "DeletePlanet": "Delete planet",
+      "DeletePlanetConfirm": "Delete {name} from this sector? A saved journal entry is kept.",
+      "NoPlanets": "No planets yet.",
+      "EditPlanet": "Edit planet",
+      "BackToSector": "Back to sector",
+      "IsCore": "Core World",
+      "NoReligionHint": "Leave empty for no religion",
+      "LoreHint": "Separate paragraphs with a blank line. Re-rolling a section the lore mentions rewrites the lore.",
+      "SaveChanges": "Save Changes",
+      "PlanetSaved": "Saved {name} to the galaxy map.",
+      "PlanetSavedJournal": "Saved {name} to the galaxy map and its journal entry.",
+      "SyncHint": "Saving also rewrites this planet's journal entry (replacing manual edits made in the journal).",
+      "UnsavedHint": "Changes are saved to the galaxy map. Use Save to Journal in the sector list to create a journal entry."
     },
     "FactionWeights": {
       "Title": "Faction Weighting",
@@ -82,13 +125,35 @@
       "Reset": "Reset"
     },
     "Settings": {
-      "JournalFolder": { "Name": "Default journal folder", "Hint": "Name of the Journal folder new planets are saved into. Created automatically if it doesn't exist. Leave blank to save at the top level." },
-      "Compendium": { "Name": "Default compendium", "Hint": "Optional compendium ID (e.g. world.lancer-planets). When set and unlocked, planets are saved there instead of the folder above." },
-      "IncludeReligion": { "Name": "Include religion", "Hint": "Roll a religion for each planet. When off, the Religion section is left out." },
-      "CoreChance": { "Name": "Core world chance (%)", "Hint": "Chance that a planet is a Core world when Core status is rolled." },
-      "FactionWeights": { "Name": "Faction weighting", "Label": "Configure Factions", "Hint": "Enable, disable, and weight factions in the controlling-faction pool." },
-      "ShowSceneControl": { "Name": "Scene control button", "Hint": "Add a Planet Generator button to the Journal Notes scene controls." },
-      "EnableGalaxyMap": { "Name": "Enable galaxy map (experimental)", "Hint": "Adds a Galaxy Map window with procedurally generated sectors, controlling powers, and blink-gate routes." }
+      "JournalFolder": {
+        "Name": "Default journal folder",
+        "Hint": "Name of the Journal folder new planets are saved into. Created automatically if it doesn't exist. Leave blank to save at the top level."
+      },
+      "Compendium": {
+        "Name": "Default compendium",
+        "Hint": "Optional compendium ID (e.g. world.lancer-planets). When set and unlocked, planets are saved there instead of the folder above."
+      },
+      "IncludeReligion": {
+        "Name": "Include religion",
+        "Hint": "Roll a religion for each planet. When off, the Religion section is left out."
+      },
+      "CoreChance": {
+        "Name": "Core world chance (%)",
+        "Hint": "Chance that a planet is a Core world when Core status is rolled."
+      },
+      "FactionWeights": {
+        "Name": "Faction weighting",
+        "Label": "Configure Factions",
+        "Hint": "Enable, disable, and weight factions in the controlling-faction pool."
+      },
+      "ShowSceneControl": {
+        "Name": "Scene control button",
+        "Hint": "Add a Planet Generator button to the Journal Notes scene controls."
+      },
+      "EnableGalaxyMap": {
+        "Name": "Enable galaxy map (experimental)",
+        "Hint": "Adds a Galaxy Map window with procedurally generated sectors, controlling powers, and blink-gate routes."
+      }
     },
     "Errors": {
       "PackNotFound": "Compendium {id} not found or not a Journal compendium; saving to the folder instead.",
