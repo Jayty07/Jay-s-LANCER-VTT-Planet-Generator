@@ -1,15 +1,15 @@
 # LANCER Planet Generator (Foundry VTT module)
 
-A Foundry VTT module for the [LANCER](https://massif-press.itch.io/corebook-pdf-free) TTRPG (system id `lancer`) that rolls planets from weighted, setting-flavoured tables and saves each one as an **editable Journal Entry**.
+A Foundry VTT module for the [LANCER](https://massif-press.itch.io/corebook-pdf-free) TTRPG that rolls planets from weighted, setting-flavoured tables and saves each one as an **editable Journal Entry**.
 
 Each planet gets:
 
 - **Core world status** – Core / non-Core; weights every other table.
-- **Average environment** – temperate terrestrial, terraformed garden world, arid desert, cryo-tundra, tidally locked, oceanic, orbital habitat, corrosive atmosphere, volcanic, hothouse jungle, ecumenopolis, airless moon/asteroid warren.
+- **Average environment** - temperate terrestrial, terraformed garden world, arid desert, cryo-tundra, tidally locked, oceanic, orbital habitat, corrosive atmosphere, volcanic, hothouse jungle, ecumenopolis, airless moon/asteroid warren.
 - **Typical accent / dialect** of the natives.
-- **Political climate** – stable Union administration, contested succession, corpro charter governance, Baronic feudal tension, revolutionary unrest, and more.
+- **Political climate** - stable Union administration, contested succession, corpro charter governance, Baronic feudal tension, revolutionary unrest, and more.
 - **Military power + controlling faction** – tier (Planetary Militia / Garrisoned / Fortress World / Shipyard Hub) and faction (Union (ThirdComm), Karrakin Trade Baronies, IPS-N, Harrison Armory, SSC, GMS, Aun Ascendancy, Independent / Local Militia). **HORUS is never in the controlling-faction pool.**
-- **Religion** (optional) – including "None (secular Union civic culture)".
+- **Religion** (optional) - including "None (secular Union civic culture)".
 - **Founding era** and a **2–4 paragraph planet history** assembled from the environment, era, faction, and politics.
 
 Optional (off by default): a **Galaxy Map** of hex sectors – Union core in the centre, Karrakin and Aun space on the rim, blink-gate routes between sectors – where clicking a sector lists and saves its planets.
