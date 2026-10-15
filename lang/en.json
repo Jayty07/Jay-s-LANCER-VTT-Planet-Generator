@@ -1,0 +1,100 @@
+{
+  "LPG": {
+    "Title": "LANCER Planet Generator",
+    "OpenGenerator": "Planet Generator",
+    "OpenGalaxy": "Galaxy Map",
+    "Sections": {
+      "name": "Name",
+      "status": "Core World Status",
+      "environment": "Average Environment",
+      "dialect": "Typical Accent / Dialect",
+      "politicalClimate": "Political Climate",
+      "foundingEra": "Founding Era",
+      "military": "Military Power & Controlling Faction",
+      "religion": "Religion",
+      "lore": "Planet Lore",
+      "sector": "Sector"
+    },
+    "Page": {
+      "Tier": "Tier",
+      "Faction": "Controlling Faction",
+      "Forces": "Forces",
+      "NoReligion": "Religion excluded by the generator settings."
+    },
+    "App": {
+      "Title": "LANCER Planet Generator",
+      "Name": "Name",
+      "NamePlaceholder": "Leave blank to roll a name",
+      "Core": "Core world",
+      "CoreRandom": "Roll",
+      "CoreYes": "Core world",
+      "CoreNo": "Non-Core world",
+      "Faction": "Controlling faction",
+      "FactionRandom": "Roll (uses faction weights)",
+      "IncludeReligion": "Include religion",
+      "Seed": "Seed",
+      "SeedPlaceholder": "Leave blank for random",
+      "Generate": "Generate",
+      "Destination": "Save to",
+      "DestinationDefault": "Default (module settings)",
+      "DestinationRoot": "Journal sidebar (no folder)",
+      "DestinationFolder": "Folder",
+      "DestinationPack": "Compendium",
+      "Save": "Save to Journal",
+      "Empty": "Press Generate to roll a planet.",
+      "RerollSection": "Re-roll this section",
+      "Saved": "Saved planet {name} to the journal."
+    },
+    "Reroll": {
+      "Button": "Re-roll",
+      "Title": "Re-roll Planet: {name}",
+      "Hint": "Choose which sections to re-roll. The journal page will be rewritten from the new results, replacing any manual edits.",
+      "LoreHint": "Planet Lore is rewritten automatically whenever a section it mentions is re-rolled.",
+      "Confirm": "Re-roll",
+      "NoneSelected": "No sections selected.",
+      "Done": "Re-rolled {name}."
+    },
+    "Galaxy": {
+      "Title": "LANCER Galaxy Map",
+      "Regenerate": "New Galaxy",
+      "RegenerateConfirm": "Generate a new galaxy? The current map will be replaced (saved journal entries are kept).",
+      "Seed": "Galaxy seed",
+      "SelectSector": "Click a sector to see its planets.",
+      "Controller": "Controlling power",
+      "Influence": "Influence",
+      "Region": "Region",
+      "PlanetCount": "Planets",
+      "Routes": "Blink-gate routes",
+      "Planets": "Planets",
+      "OpenInGenerator": "Open in generator",
+      "SaveAll": "Save all planets to Journal",
+      "Legend": "Legend",
+      "OpenJournal": "Open journal",
+      "Disabled": "The galaxy map is disabled in the module settings."
+    },
+    "FactionWeights": {
+      "Title": "Faction Weighting",
+      "Hint": "Enable or disable factions in the controlling-faction pool and scale how often they are rolled (1 = normal, 2 = twice as likely, 0.5 = half). HORUS is never part of the pool.",
+      "Faction": "Faction",
+      "Enabled": "Enabled",
+      "Weight": "Weight",
+      "Save": "Save",
+      "Reset": "Reset"
+    },
+    "Settings": {
+      "JournalFolder": { "Name": "Default journal folder", "Hint": "Name of the Journal folder new planets are saved into. Created automatically if it doesn't exist. Leave blank to save at the top level." },
+      "Compendium": { "Name": "Default compendium", "Hint": "Optional compendium ID (e.g. world.lancer-planets). When set and unlocked, planets are saved there instead of the folder above." },
+      "IncludeReligion": { "Name": "Include religion", "Hint": "Roll a religion for each planet. When off, the Religion section is left out." },
+      "CoreChance": { "Name": "Core world chance (%)", "Hint": "Chance that a planet is a Core world when Core status is rolled." },
+      "FactionWeights": { "Name": "Faction weighting", "Label": "Configure Factions", "Hint": "Enable, disable, and weight factions in the controlling-faction pool." },
+      "ShowSceneControl": { "Name": "Scene control button", "Hint": "Add a Planet Generator button to the Journal Notes scene controls." },
+      "EnableGalaxyMap": { "Name": "Enable galaxy map (experimental)", "Hint": "Adds a Galaxy Map window with procedurally generated sectors, controlling powers, and blink-gate routes." }
+    },
+    "Errors": {
+      "PackNotFound": "Compendium {id} not found or not a Journal compendium; saving to the folder instead.",
+      "PackLocked": "Compendium {id} is locked; saving to the folder instead.",
+      "NoPlanet": "Generate a planet first.",
+      "NoData": "This journal entry has no generator data to re-roll."
+    }
+  }
+}

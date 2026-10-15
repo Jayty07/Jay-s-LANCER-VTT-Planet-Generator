@@ -1,0 +1,14 @@
+{
+  "name": "lancer-planet-generator",
+  "private": true,
+  "type": "module",
+  "description": "Foundry VTT module: LANCER planet generator. package.json is only for tests/docs; Foundry does not use it.",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check": "for f in $(find scripts -name '*.mjs'); do node --check \"$f\" || exit 1; done",
+    "docs": "node tools/table-docs.mjs"
+  },
+  "devDependencies": {
+    "handlebars": "^4.7.8"
+  }
+}

@@ -1,0 +1,52 @@
+name: Release
+
+# Push a tag like v1.0.1 to build module.zip and publish a GitHub Release.
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Test
+        run: |
+          npm install --no-audit --no-fund
+          npm run check
+          npm test
+
+      - name: Stamp version and URLs into module.json
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          BASE="https://github.com/${GITHUB_REPOSITORY}"
+          jq --arg version "$VERSION" \
+             --arg url "$BASE" \
+             --arg manifest "$BASE/releases/latest/download/module.json" \
+             --arg download "$BASE/releases/download/${GITHUB_REF_NAME}/module.zip" \
+             '.version = $version | .url = $url | .manifest = $manifest | .download = $download' \
+             module.json > module.json.tmp
+          mv module.json.tmp module.json
+          cat module.json
+
+      # Foundry requires module.json at the root of the zip, not inside a folder.
+      - name: Build module.zip
+        run: |
+          zip -r module.zip module.json README.md scripts templates lang styles
+          unzip -l module.zip
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            module.zip
+            module.json
+          generate_release_notes: true
