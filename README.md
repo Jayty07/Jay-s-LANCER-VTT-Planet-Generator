@@ -16,24 +16,11 @@ Optional (off by default): a **Galaxy Map** of hex sectors – Union core in the
 
 Built for **Foundry VTT v13** (also runs on v12). The LANCER system is *recommended*, not required.
 
-## Install on The Forge (manifest URL)
-
 Manifest URL:
 
 ```
 https://github.com/Jayty07/Jay-s-LANCER-VTT-Planet-Generator/releases/latest/download/module.json
 ```
-
-1. Open your game on [The Forge](https://forge-vtt.com) and go to the **Foundry Setup** screen (from your Forge game page, use **Game Configuration / Return to Setup**; or in a running world, **Game Settings → Return to Setup**).
-2. Click the **Add-on Modules** tab → **Install Module**.
-3. Paste the manifest URL above into the **Manifest URL** box at the bottom and click **Install**.
-4. Launch your LANCER world, go to **Game Settings → Manage Modules**, tick **LANCER Planet Generator**, and **Save Module Settings**.
-
-(The Forge's Bazaar also lets you install a module from a custom manifest URL; the same URL works there.)
-
-Self-hosted Foundry works exactly the same way: Setup → Add-on Modules → Install Module → paste the URL.
-
-Updates: Foundry checks the manifest URL, so **Update** on the Add-on Modules tab picks up new releases.
 
 ## Usage
 
@@ -47,18 +34,6 @@ Updates: Foundry checks the manifest URL, so **Update** on the Add-on Modules ta
   - **Shape the galaxy** with the tool buttons: *Add Sector* (click an empty hex for a sector rolled to fit its position), *Add Blank Sector* (unclaimed, no planets), *Move* (click a sector, then an empty hex), *Link Route* (click two sectors to add/remove a blink-gate route), *Erase*. *Grid size* sets how many hex rings are shown; **Clear Map** starts from an empty grid and **New Galaxy** rolls a full one.
   - **Sectors:** click one to edit its name, controlling power, region and influence (**Save Sector**), add one planet or generate several, delete planets, and save one or all to the journal.
   - **Edit planets on the map:** click a planet's name (or the pen) to edit every field, re-roll any section with its dice, and **Save Changes**. Changes are stored in the galaxy; if the planet already has a journal entry, that entry is rewritten too.
-
-### Settings
-
-| Setting | What it does |
-| --- | --- |
-| Default journal folder | Folder new planets go into (created automatically). Blank = top level. |
-| Default compendium | Optional Journal compendium ID (e.g. `world.lancer-planets`); used instead of the folder when set and unlocked. |
-| Include religion | Roll a religion for each planet. |
-| Core world chance (%) | Chance of Core status when it is rolled. |
-| Faction weighting | Enable/disable each faction and set how often it is rolled (also used by the galaxy map). |
-| Scene control button | Show the generator button in the Journal Notes scene controls. |
-| Enable galaxy map | Turns on the experimental Galaxy Map. |
 
 ### Macro / API
 
@@ -196,17 +171,6 @@ npm run check   # syntax-check every script
 npm test        # generator, galaxy, template, localization and manifest tests
 npm run docs    # print the table docs used in this README
 ```
-
-### Releasing
-
-Bump `version` in `module.json`, commit, then push a tag:
-
-```sh
-git tag v1.0.1
-git push origin v1.0.1
-```
-
-The **Release** GitHub Action runs the tests, stamps the version and URLs into `module.json`, builds `module.zip` (with `module.json`, `scripts`, `templates`, `lang`, `styles` at the zip root, as Foundry requires), and publishes a GitHub Release with `module.zip` and `module.json` attached. The manifest URL always points at the latest release.
 
 ## Disclaimer
 
