@@ -21,15 +21,16 @@ class ApplicationV2 {
   get window() { return {}; }
   async _prepareContext() { return {}; }
 }
-const settings = { includeReligion: true, enableGalaxyMap: true, factionWeights: {}, galaxy: {} };
+const settings = { includeReligion: true, coreChance: 25, enableGalaxyMap: true, factionWeights: {}, galaxy: {} };
 globalThis.foundry = { applications: { api: { ApplicationV2, HandlebarsApplicationMixin: (B) => class extends B {}, DialogV2: class {} } } };
 globalThis.game = {
-  settings: { get: (_m, key) => settings[key] },
-  i18n: { localize: (k) => k },
+  settings: { get: (_m, key) => settings[key], set: async (_m, key, value) => (settings[key] = value) },
+  i18n: { localize: (k) => k, format: (k) => k },
   folders: [],
   packs: []
 };
 globalThis.Handlebars = { escapeExpression: (t) => String(t) };
+globalThis.fromUuidSync = () => null;
 
 const { PlanetGeneratorApp } = await import("../scripts/apps/planet-generator-app.mjs");
 const { GalaxyMapApp } = await import("../scripts/apps/galaxy-map-app.mjs");
@@ -42,4 +43,19 @@ test("apps construct without overwriting ApplicationV2 getters", async () => {
   const context = await new PlanetGeneratorApp()._prepareContext({});
   assert.equal(context.state.destination, "default");
   assert.ok(context.factionOptions.union);
+});
+
+test("galaxy map context: grid, selected sector and planet edit form", async () => {
+  const app = new GalaxyMapApp();
+  let context = await app._prepareContext({});
+  assert.ok(settings.galaxy.sectors.length > 0, "a galaxy is generated on first open");
+  assert.ok(context.svg.includes('data-action="clickHex"'));
+  assert.equal(context.tools.length, 6);
+  app.selectedId = "0,0";
+  context = await app._prepareContext({});
+  assert.equal(context.sector.controller, "union");
+  app.editingSeed = context.planets[0].planet.seed;
+  context = await app._prepareContext({});
+  assert.equal(context.edit.planet.seed, app.editingSeed);
+  assert.ok(context.edit.loreText.includes("\n\n") || context.edit.planet.lore.length === 1);
 });

@@ -229,3 +229,34 @@
   width: auto;
   padding: 0 0.5rem;
 }
+
+/* Galaxy editor */
+.lpg-galaxy .lpg-map-toolbar { flex-wrap: wrap; margin-bottom: 0.3rem; }
+.lpg-galaxy .lpg-grid-size { display: flex; align-items: center; gap: 0.3rem; white-space: nowrap; }
+.lpg-galaxy .lpg-grid-size input { width: 4em; }
+.lpg-galaxy .lpg-tools { justify-content: flex-start; gap: 0.25rem; }
+.lpg-galaxy .lpg-tools button.active { background: rgba(255, 216, 74, 0.25); border-color: #ffd84a; }
+.lpg-galaxy .lpg-tool-hint { margin: 0 0 0.3rem; font-size: 0.85em; opacity: 0.8; }
+.lpg-galaxy .lpg-map-view { position: relative; flex: 1 1 auto; min-height: 0; display: flex; }
+.lpg-galaxy .lpg-map-view .lpg-galaxy-svg { height: 100%; touch-action: none; user-select: none; }
+.lpg-galaxy .lpg-zoom { position: absolute; top: 0.5rem; right: 0.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
+.lpg-galaxy .lpg-zoom button { width: 2rem; height: 2rem; padding: 0; flex: 0 0 auto; }
+.lpg-galaxy-svg.lpg-panning { cursor: grabbing; }
+.lpg-galaxy-svg .lpg-empty-hex polygon { fill: rgba(255, 255, 255, 0.02); stroke: rgba(255, 255, 255, 0.12); stroke-width: 1; }
+.lpg-galaxy-svg.lpg-tool-select .lpg-empty-hex, .lpg-galaxy-svg.lpg-tool-erase .lpg-empty-hex, .lpg-galaxy-svg.lpg-tool-link .lpg-empty-hex { cursor: default; }
+.lpg-galaxy-svg.lpg-tool-addRandom .lpg-empty-hex:hover polygon,
+.lpg-galaxy-svg.lpg-tool-addBlank .lpg-empty-hex:hover polygon,
+.lpg-galaxy-svg.lpg-tool-move .lpg-empty-hex:hover polygon { fill: rgba(127, 227, 255, 0.15); stroke: #7fe3ff; stroke-width: 2; }
+.lpg-galaxy-svg.lpg-tool-erase .lpg-hex:not(.lpg-empty-hex):hover polygon { stroke: #ff5a5a; stroke-width: 3; }
+.lpg-galaxy-svg .lpg-hex.lpg-pending polygon { stroke: #7fe3ff; stroke-width: 3.5; stroke-dasharray: 6 3; }
+.lpg-galaxy .lpg-sector-form, .lpg-galaxy .lpg-planet-form { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 0.5rem; }
+.lpg-galaxy .lpg-sector-form .form-group, .lpg-galaxy .lpg-planet-form .form-group { display: flex; flex-direction: column; align-items: stretch; gap: 0.15rem; }
+.lpg-galaxy .lpg-planet-form .form-group.lpg-inline { flex-direction: row; align-items: center; justify-content: space-between; }
+.lpg-galaxy .lpg-planet-form fieldset { display: flex; flex-direction: column; gap: 0.25rem; margin: 0; }
+.lpg-galaxy .lpg-planet-form textarea { resize: vertical; min-height: 3em; font-family: inherit; }
+.lpg-galaxy .lpg-reroll { cursor: pointer; opacity: 0.7; margin-left: 0.25rem; }
+.lpg-galaxy .lpg-reroll:hover { opacity: 1; }
+.lpg-galaxy .lpg-planet-row a { cursor: pointer; }
+.lpg-galaxy .lpg-planet-add { display: flex; gap: 0.25rem; align-items: center; margin-bottom: 0.4rem; }
+.lpg-galaxy .lpg-planet-add input { width: 3.5em; flex: 0 0 auto; }
+.lpg-galaxy .lpg-edit-buttons { display: flex; gap: 0.3rem; }

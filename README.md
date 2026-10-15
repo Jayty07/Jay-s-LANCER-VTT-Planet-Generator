@@ -42,7 +42,11 @@ Updates: Foundry checks the manifest URL, so **Update** on the Add-on Modules ta
 - Pick where to save (default folder from settings, the sidebar root, any Journal folder, or an unlocked Journal compendium) and click **Save to Journal**.
 - The journal entry is ordinary Foundry text: edit any section in the journal editor.
 - **Re-roll later:** open a generated planet's journal and use **Re-roll** in the sheet header menu (the `⋮` / controls menu in v13), or right-click the entry in the Journal sidebar → **Re-roll**. Choose which sections to re-roll. This rewrites the page from the new results and replaces manual edits to it. The raw rolled data lives in the entry's `flags.lancer-planet-generator.planet`.
-- **Galaxy map:** turn on *Enable galaxy map* in the module settings, then use the **Galaxy Map** button in the Journal sidebar (GM only). Click a sector to see its controlling power, influence, routes and planets; open a planet in the generator or save one or all to the journal. **New Galaxy** rolls a fresh map.
+- **Galaxy map:** turn on *Enable galaxy map* in the module settings, then use the **Galaxy Map** button in the Journal sidebar (GM only).
+  - **Zoom and pan:** mouse wheel or the +/− buttons to zoom (the expand button fits the map to the window); drag to pan.
+  - **Shape the galaxy** with the tool buttons: *Add Sector* (click an empty hex for a sector rolled to fit its position), *Add Blank Sector* (unclaimed, no planets), *Move* (click a sector, then an empty hex), *Link Route* (click two sectors to add/remove a blink-gate route), *Erase*. *Grid size* sets how many hex rings are shown; **Clear Map** starts from an empty grid and **New Galaxy** rolls a full one.
+  - **Sectors:** click one to edit its name, controlling power, region and influence (**Save Sector**), add one planet or generate several, delete planets, and save one or all to the journal.
+  - **Edit planets on the map:** click a planet's name (or the pen) to edit every field, re-roll any section with its dice, and **Save Changes**. Changes are stored in the galaxy; if the planet already has a journal entry, that entry is rewritten too.
 
 ### Settings
 

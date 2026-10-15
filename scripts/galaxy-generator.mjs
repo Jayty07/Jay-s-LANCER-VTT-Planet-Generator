@@ -5,8 +5,9 @@
 import { CONTROLLING_FACTIONS, createRng, generatePlanet, getFaction, randomSeed, weightedPick } from "./planet-generator.mjs";
 
 export const DEFAULT_RADIUS = 3;
+export const GALAXY_SCHEMA = 2;
 
-const HEX_DIRECTIONS = [
+export const HEX_DIRECTIONS = [
   [1, 0], [1, -1], [0, -1], [-1, 0], [-1, 1], [0, 1]
 ];
 
@@ -37,7 +38,7 @@ const REGION_WEIGHTS = {
   rim: { harrison: 2.5, ipsn: 2, independent: 3, union: 1, ssc: 1 }
 };
 
-const REGION_LABELS = {
+export const REGION_LABELS = {
   core: "Union Core",
   inner: "Inner Diaspora",
   karrakin: "Karrakin Rim",
@@ -85,6 +86,53 @@ function rollController(rng, region, factionWeights) {
   return weightedPick(rng, CONTROLLING_FACTIONS, fn);
 }
 
+/** Region of a hex: distance from the center plus which 60-degree wedge of the rim it sits in. */
+export function regionAt(q, r, radius, rotation = 0) {
+  const dist = hexDistance(q, r);
+  if (dist === 0) return "core";
+  const x = Math.sqrt(3) * (q + r / 2);
+  const y = 1.5 * r;
+  const angle = (Math.atan2(y, x) + 2 * Math.PI) % (2 * Math.PI);
+  const wedge = (Math.floor(angle / (Math.PI / 3)) + rotation) % 6;
+  return regionFor(dist, radius, wedge);
+}
+
+/** Roll a random sector for hex (q, r). `usedNames` (a Set) keeps sector names unique. */
+export function rollSector(rng, q, r, { radius = DEFAULT_RADIUS, rotation = 0, factionWeights, usedNames = new Set(), id } = {}) {
+  const dist = hexDistance(q, r);
+  const region = regionAt(q, r, radius, rotation);
+  const controller = dist === 0 ? getFaction("union") ?? rollController(rng, region, factionWeights) : rollController(rng, region, factionWeights);
+
+  const dominant = Object.entries(REGION_WEIGHTS[region]).sort((a, b) => b[1] - a[1])[0][0];
+  let influence = region === "core" ? 0.75 + rng.next() * 0.25 : 0.35 + rng.next() * 0.55;
+  if (controller.id === dominant) influence += 0.1;
+  if (dist === 0) influence = 1;
+  influence = Math.round(Math.min(1, influence) * 100) / 100;
+
+  let name;
+  let tries = 0;
+  do {
+    name = `${rng.pick(SECTOR_PREFIXES)} ${rng.pick(SECTOR_SUFFIXES[controller.id] ?? SECTOR_SUFFIXES.independent)}`;
+  } while (usedNames.has(name) && ++tries < 200);
+  usedNames.add(name);
+
+  const [minPlanets, maxPlanets] = region === "core" ? [3, 7] : region === "inner" ? [2, 6] : [1, 5];
+  return {
+    id: id ?? `${q},${r}`,
+    q,
+    r,
+    name,
+    region,
+    regionLabel: REGION_LABELS[region],
+    isCore: region === "core",
+    controller: controller.id,
+    controllerName: controller.name,
+    influence,
+    influenceLabel: influenceLabel(influence),
+    planetCount: rng.int(minPlanets, maxPlanets)
+  };
+}
+
 /**
  * @param {object} [options]
  * @param {string} [options.seed]
@@ -101,45 +149,11 @@ export function generateGalaxy(options = {}) {
 
   for (let q = -radius; q <= radius; q++) {
     for (let r = Math.max(-radius, -q - radius); r <= Math.min(radius, -q + radius); r++) {
-      const dist = hexDistance(q, r);
-      const x = Math.sqrt(3) * (q + r / 2);
-      const y = 1.5 * r;
-      const angle = (Math.atan2(y, x) + 2 * Math.PI) % (2 * Math.PI);
-      const wedge = (Math.floor(angle / (Math.PI / 3)) + rotation) % 6;
-      const region = dist === 0 ? "core" : regionFor(dist, radius, wedge);
-      const controller = dist === 0 ? getFaction("union") ?? rollController(rng, region, options.factionWeights) : rollController(rng, region, options.factionWeights);
-
-      const dominant = Object.entries(REGION_WEIGHTS[region]).sort((a, b) => b[1] - a[1])[0][0];
-      let influence = region === "core" ? 0.75 + rng.next() * 0.25 : 0.35 + rng.next() * 0.55;
-      if (controller.id === dominant) influence += 0.1;
-      if (dist === 0) influence = 1;
-      influence = Math.round(Math.min(1, influence) * 100) / 100;
-
-      let name;
-      do {
-        name = `${rng.pick(SECTOR_PREFIXES)} ${rng.pick(SECTOR_SUFFIXES[controller.id] ?? SECTOR_SUFFIXES.independent)}`;
-      } while (usedNames.has(name) && usedNames.size < SECTOR_PREFIXES.length * 3);
-      usedNames.add(name);
-
-      const [minPlanets, maxPlanets] = region === "core" ? [3, 7] : region === "inner" ? [2, 6] : [1, 5];
-      sectors.push({
-        id: `${q},${r}`,
-        q,
-        r,
-        name,
-        region,
-        regionLabel: REGION_LABELS[region],
-        isCore: region === "core",
-        controller: controller.id,
-        controllerName: controller.name,
-        influence,
-        influenceLabel: influenceLabel(influence),
-        planetCount: rng.int(minPlanets, maxPlanets)
-      });
+      sectors.push(rollSector(rng, q, r, { radius, rotation, factionWeights: options.factionWeights, usedNames }));
     }
   }
 
-  return { seed, radius, sectors, routes: buildRoutes(rng, sectors) };
+  return { schema: GALAXY_SCHEMA, seed, radius, rotation, sectors, routes: buildRoutes(rng, sectors) };
 }
 
 /** Blink-gate routes: a random spanning tree over adjacent sectors plus a few extra links. */
@@ -196,6 +210,8 @@ export function generateSectorPlanet(galaxy, sector, index, options = {}) {
   });
 }
 
+/** A sector's planets: the stored list once the GM has edited it, otherwise rolled from the galaxy seed. */
 export function generateSectorPlanets(galaxy, sector, options = {}) {
-  return Array.from({ length: sector.planetCount }, (_, i) => generateSectorPlanet(galaxy, sector, i, options));
+  if (Array.isArray(sector.planets)) return sector.planets;
+  return Array.from({ length: sector.planetCount ?? 0 }, (_, i) => generateSectorPlanet(galaxy, sector, i, options));
 }
